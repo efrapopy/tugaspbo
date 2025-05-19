@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biodata Mahasiswa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+</head>
+<body class="bg-cyan-50 py-10 px-4">
+  <div class="max-w-6xl mx-auto" id="biodata-section">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Foto Profile -->
+      <section class="bg-white rounded-xl shadow p-6 text-center">
+        <h2 class="text-lg font-semibold mb-4">Foto Profile</h2>
+        <div class="border-4 border-gray-300 rounded-lg p-1 shadow-md mx-auto w-fit">
+          <img src="https://files.catbox.moe/gjq6yb.jpg" alt="Foto Ishac Kurnia Sandy"
+               class="w-40 h-60 object-cover rounded-lg" />
+        </div>
+      </section>
+
+      <!-- Biodata -->
+      <section class="col-span-2 bg-white rounded-xl shadow p-6">
+        <h2 class="text-lg font-semibold mb-4">Biodata</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div><strong>Nama:</strong> Ishac Kurnia Sandy</div>
+          <div><strong>NIM:</strong> 123456789</div>
+          <div><strong>Jurusan:</strong> Teknik Informatika</div>
+          <div><strong>Fakultas:</strong> Ilmu Komputer</div>
+          <div><strong>Universitas:</strong> Contoh University</div>
+          <div><strong>Email:</strong> ishac@example.com</div>
+        </div>
+      </section>
+
+      </div>
+    <!-- Tombol PDF -->
+<!-- Tambahkan margin-top jika perlu -->
+<div class="w-full flex justify-center mt-6">
+  <button id="download-btn" onclick="downloadPDF()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow">
+    Download PDF
+  </button>
+</div>
+
+<!-- Script PDF -->
+<script>
+  async function downloadPDF() {
+    const { jsPDF } = window.jspdf; // Ambil dari UMD global
+    const element = document.getElementById("biodata-section");
+
+    // Sembunyikan tombol
+    const btn = document.getElementById("download-btn");
+    btn.style.display = "none";
+
+    // Render canvas
+    const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+    const imgData = canvas.toDataURL("image/png");
+
+    // Buat PDF
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("biodata-ishac.pdf");
+
+    // Tampilkan kembali tombol
+    btn.style.display = "block";
+  }
+</script>
+
+
+</body>
+</html>
